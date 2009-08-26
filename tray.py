@@ -6,6 +6,10 @@ import javax.swing as swing
 from java.lang import Object
 import sys
 
+import logging, logging.config
+logging.config.fileConfig("logging.conf")
+LOG = logging.getLogger()
+
 class YaySystemTray:
 	def buildSystemTray(self):
 		tray = awt.SystemTray.getSystemTray()
@@ -26,7 +30,7 @@ class YaySystemTray:
 		self.doExit()
 		
 	def showTrayMenu(self,event):
-		print "showing window"
+		LOG.debug("showing window")
 		
 	def handleShowHide(self,event):
 		cur_val = self.showHideItem.getLabel()

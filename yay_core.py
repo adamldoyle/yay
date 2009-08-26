@@ -14,6 +14,10 @@ import os
 import pickle
 import math
 
+import logging, logging.config
+logging.config.fileConfig("logging.conf")
+LOG = logging.getLogger()
+
 # used in reloadTime filter so only image files are "seen"/counted
 def img_only(f):
 	exts = ['png','jpg','gif','jpeg','bmp']
@@ -30,10 +34,9 @@ class YayCore(threading.Thread):
 		self.ticks = 30 #default
 		self.first_start = False
 		self.has_started = False
-		
 		app_name = 'Yay'
 		filename = 'config.pkl'
-		print os_name
+		LOG.debug('Operating System: %s.' % os_name)
 		if os_name.find('Windows') != -1:
 		    self.config_dir = os.environ["APPDATA"] + self.os_sep + app_name + self.os_sep
 		    self.os = 'win'
@@ -51,7 +54,7 @@ class YayCore(threading.Thread):
 			try:
 				f = open(self.config_path,'rb')
 			except IOError:
-				print "file doesn't exist"
+				LOG.debug('Config file doesn\'t exist, creating it.')
 				self.first_start = True
 				self.create_config_file()
 	
@@ -60,7 +63,7 @@ class YayCore(threading.Thread):
 		
 		if self.dir == '':
 			## this should be a dialog alert...
-			print "quitting"
+			LOG.debug('Exitting program.')
 			#sys.exit()
 			System.exit(0)
 		else:
@@ -224,7 +227,7 @@ class YayCore(threading.Thread):
 		else:
 			import yay_gnome
 			yay_gnome.change_desktop(self.dir + self.workingdir[self.file_count])
-		print "SETTING: " + self.workingdir[self.file_count]
+		LOG.debug('Setting next background image: %s.' % self.workingdir[self.file_count])
 		
 
 	def next(self):
@@ -247,4 +250,4 @@ class YayCore(threading.Thread):
 		self.countMenu.updateUI()
 		
 	def join(self,timeout=None):
-		print "hrm"
+		LOG.debug('Hrm.')
