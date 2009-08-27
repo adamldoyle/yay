@@ -12,16 +12,23 @@ def runit(cmd):
 	LOG.debug("Ran: %s." % cmd)
 
 if __name__ == '__main__':
-	if os.name == 'posix':
+        os_name = os.name
+        if os_name == 'java':
+                import java.lang.System as System
+                if System.getProperty('os.name').find('Windows') != -1:
+                        os_name = 'nt'
+                else:
+                        os_name = 'posix'
+	if os_name == 'posix':
 		rm_cmd = 'rm'
 		rmd_cmd = 'rm -r'
 		cp_cmd = 'cp'
-	elif os.name == 'nt':
+	elif os_name == 'nt':
 		rm_cmd = 'del'
 		rmd_cmd = 'rmdir /s /q'
 		cp_cmd = 'copy'
-	else:
-		pass
+        else:
+                pass
 
 	runit('%s yay.jar' % rm_cmd)
 	runit('%s cachedir' % rmd_cmd)
