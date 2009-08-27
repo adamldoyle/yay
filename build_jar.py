@@ -3,24 +3,34 @@
 
 import os
 
+import logger
+LOG = logger.yay_logger()
+
 ## TODO
 def runit(cmd):
-	#a = subprocess.Popen(cmd,shell=True)
 	os.system(cmd)
-	print "ran: " + cmd
-
-
+	LOG.debug("Ran: %s." % cmd)
 
 if __name__ == '__main__':
-	runit('del yay.jar')
-        runit('rmdir /s /q cachedir')
+	if os.name == 'posix':
+		rm_cmd = 'rm'
+		rmd_cmd = 'rm -r'
+		cp_cmd = 'cp'
+	elif os.name == 'nt':
+		rm_cmd = 'del'
+		rmd_cmd = 'rmdir /s /q'
+		cp_cmd = 'copy'
+	else:
+		pass
+
+	runit('%s yay.jar' % rm_cmd)
+	runit('%s cachedir' % rmd_cmd)
 	
 	runit("javac -classpath jythonlib.jar *.java")
-	runit("copy jythonlib.jar yay.jar")
-	runit("jar ufm yay.jar manifest.txt *.class *.py *.gif *.conf")
+	runit("%s jythonlib.jar yay.jar" % cp_cmd)
+	runit("jar ufm yay.jar manifest.txt *.class *.py *.gif")
 
-	runit('del *.class')
-
-        runit('move yay.jar ../../')
-	runit('java -jar c:/yay.jar')
+	runit('%s *.class' % rm_cmd)
+	
+	runit('java -jar yay.jar')
 	#maybe use API to upload directly to "Downloads" section

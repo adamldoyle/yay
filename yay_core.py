@@ -14,9 +14,8 @@ import os
 import pickle
 import math
 
-import logging, logging.config
-logging.config.fileConfig("logging.conf")
-LOG = logging.getLogger()
+import logger
+LOG = logger.yay_logger()
 
 # used in reloadTime filter so only image files are "seen"/counted
 def img_only(f):

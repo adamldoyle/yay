@@ -5,9 +5,8 @@ import java.io.File as File
 import javax.imageio.ImageIO as ImageIO
 import os
 
-import logging, logging.config
-logging.config.fileConfig("logging.conf")
-LOG = logging.getLogger()
+import logger
+LOG = logger.yay_logger()
 
 def reload_bg():
 	LOG.debug("Running RUNDLL32.EXE")

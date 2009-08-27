@@ -6,9 +6,8 @@ import javax.swing as swing
 from java.lang import Object
 import sys
 
-import logging, logging.config
-logging.config.fileConfig("logging.conf")
-LOG = logging.getLogger()
+import logger
+LOG = logger.yay_logger()
 
 class YaySystemTray:
 	def buildSystemTray(self):
