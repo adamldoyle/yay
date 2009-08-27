@@ -66,7 +66,7 @@ class YayCore(threading.Thread):
 			#sys.exit()
 			System.exit(0)
 		else:
-			print self.dir
+			LOG.debug('Image folder: %s.' % self.dir)
 
 
 		self._stopevent = threading.Event()
